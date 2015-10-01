@@ -640,10 +640,13 @@ gtk_source_language_manager_guess_language (GtkSourceLanguageManager *lm,
 {
 	GtkSourceLanguage *lang = NULL;
 	GSList *langs = NULL;
+	GSList *li;
 
 	g_return_val_if_fail (GTK_SOURCE_IS_LANGUAGE_MANAGER (lm), NULL);
 	g_return_val_if_fail ((filename != NULL && *filename != '\0') ||
 	                      (content_type != NULL && *content_type != '\0'), NULL);
+
+	g_print ("\nguess_language(%s, %s)\n", filename, content_type);
 
 	ensure_languages (lm);
 
@@ -656,6 +659,14 @@ gtk_source_language_manager_guess_language (GtkSourceLanguageManager *lm,
 
 	if (filename != NULL && *filename != '\0')
 		langs = pick_langs_for_filename (lm, filename);
+
+	g_print ("langs for filename: ");
+	for (li = langs; li != NULL; li = li->next)
+	{
+		GtkSourceLanguage *cur_lang = li->data;
+		g_print ("%s ", gtk_source_language_get_name (cur_lang));
+	}
+	g_print ("\n");
 
 	if (langs != NULL)
 	{
@@ -693,6 +704,7 @@ gtk_source_language_manager_guess_language (GtkSourceLanguageManager *lm,
 						g_slist_free (langs);
 						g_free (content);
 
+						g_print ("early return lang: %s\n", gtk_source_language_get_name (lang));
 						return lang;
 					}
 					g_free (content);
@@ -709,7 +721,10 @@ gtk_source_language_manager_guess_language (GtkSourceLanguageManager *lm,
 	else if (langs == NULL && content_type != NULL)
 	{
 		lang = pick_lang_for_mime_type (lm, content_type);
+		g_print ("lang for mime type: %s\n", gtk_source_language_get_name (lang));
 	}
+
+	g_print ("return lang: %s\n", gtk_source_language_get_name (lang));
 
 	return lang;
 }
