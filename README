@@ -12,15 +12,11 @@ typical of a source code editor.
 The GtkSourceView library is free software and is released under the terms of
 the GNU Lesser General Public License, see the 'COPYING' file for more details.
 
-The official web site is:
-
-    https://wiki.gnome.org/Projects/GtkSourceView
-
 Dependencies
 ------------
 
-* GLib >= 2.48
-* GTK+ >= 3.20
+* GLib >= 2.60
+* GTK >= 3.20
 * libxml2 >= 2.6
 
 Installation
